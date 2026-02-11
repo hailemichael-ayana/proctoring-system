@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
+import { LoginRequest, LoginResponse } from "./types/auth";
 
 const isDev = !app.isPackaged;
 
@@ -25,3 +26,20 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow);
+ipcMain.handle(
+  "auth:login",
+  async (_, credentials: LoginRequest): Promise<LoginResponse> => {
+    const { username, password } = credentials;
+
+    console.log("Login bla bla:", username);
+    if (username === "abc@gmail.com" && password === "1234") {
+      return { success: true };
+    }
+
+    return {
+      success: false,
+      message: "Invalid credentials"
+    };
+  }
+);
+
