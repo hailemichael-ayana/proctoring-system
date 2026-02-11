@@ -1,14 +1,17 @@
 import logo from '../assets/images/image.png'
 import grid from '../assets/images/grid.png'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [error, setError] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const navigate =useNavigate()
     const handleLogin = async (e:any) => {
         e.preventDefault()
-    setError("");
     setLoading(true);
 
     try {
@@ -18,12 +21,13 @@ const Login = () => {
       });
 
       if (result.success) {
-        alert("Login successful!");
+        toast.success("Login successful!");
+        navigate('/connectivity')
       } else {
-        setError(result.message || "Login failed");
+        toast.error(result.message || "Login failed");
       }
     } catch (err) {
-      setError("Something went wrong");
+      toast.error("Something went wrong");
     }
 
     setLoading(false);
@@ -33,7 +37,7 @@ const Login = () => {
         <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-[160%] aspect-square rounded-full bg-[#57ADF6] " />
         <div className="absolute top-0 right-0  translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square rounded-full bg-[#3F98E6]" />
         <div className="absolute top-0 right-0  translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square rounded-full bg-[#1F7FCC]" />
-        <div className="absolute top-0 right-0  translate-x-1/2 -translate-y-1/2 w-[40%] aspect-square rounded-full bg-[#0b5fa877] shadow-[0px_4px_38.9px_256px_rgba(11,94,168,0.56)]
+        <div className="absolute top-0 right-0  translate-x-1/2 -translate-y-1/2 w-[40%] aspect-square rounded-full bg-[#0b5fa877] ]
 " />
         <div className="w-1/2 relative flex flex-col justify-center">
             <div className="flex items-center gap-2 absolute top-0 left-0 p-3 ">
@@ -41,18 +45,17 @@ const Login = () => {
                 <p className='text-xl' >Bahir Dar University </p>
             </div>
             <div className="relative pt-20 pl-20">
-            <h1 className='text-[110px] font-thin'>Exit Exam</h1>
+            <h1 className='text-[110px] font-thin'>Welcome</h1>
             <p className='text-lg font-light w-[75%]'>This is an exam for masters degree students, so provide your credentials and continue with the exam. <span className='block'>Good Luck</span></p>
             <img src={grid} alt="grid" className='absolute w-92.5 h-80 top-0 left-0'/>
             </div>
         </div>
-        <div className="relative w-1/2 bg-[#ffffff0d] backdrop-blur-xs flex flex-col items-center justify-center gap-5">
+        <div className="relative w-1/2 bg-[#ffffff0d] backdrop-blur-xs flex flex-col items-center justify-center gap-8">
             <div className="flex flex-col items-center gap-2">
                 <h1 className='font-bold text-5xl'>Login</h1>
                 <p className='font-extralight'>Use your id as your username</p>
             </div>
             <form onSubmit={handleLogin} className='flex flex-col w-[40%] gap-5 relative'>
-            <p className='text-sm self-center text-[#990404] '>{error&&error}</p>
                 <div className="relative">
                 <input
                     id="username"
@@ -78,11 +81,11 @@ const Login = () => {
                 <div className="relative my-2">
                 <input
                     id="password"
-                    type="password"
+                    type= {showPassword?"text":"password"}
                     placeholder=" "
                     value={password}
                     onChange={(e)=>setPassword(e.target.value)}
-                    className="peer w-full border border-[#BDBDBD] outline-none rounded-[10px] py-3 px-3 bg-transparent"
+                    className="peer w-full border border-[#BDBDBD] outline-none rounded-[10px] py-3 px-3 bg-transparent pr-10"
                     required
                 />
                 <label
@@ -95,6 +98,8 @@ const Login = () => {
                 >
                     Password
                 </label>
+                <div className='cursor-pointer w-fit   absolute right-3 top-1/2 transform -translate-y-1/2' onClick={()=>setShowPassword(!showPassword)}>
+                {showPassword?<FaEye/>:<FaEyeSlash/>}</div>
                 </div>
 
                 <p className='hover:text-[#ffffff75] cursor-pointer' >Forget Password ?</p>

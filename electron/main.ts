@@ -31,8 +31,8 @@ ipcMain.handle(
   async (_, credentials: LoginRequest): Promise<LoginResponse> => {
     const { username, password } = credentials;
 
-    console.log("Login bla bla:", username);
-    if (username === "abc@gmail.com" && password === "1234") {
+    console.log("Login bla:", username);
+    if (username === "abc" && password === "1234") {
       return { success: true };
     }
 
@@ -40,6 +40,6 @@ ipcMain.handle(
       success: false,
       message: "Invalid credentials"
     };
-  }
+  },
 );
 
