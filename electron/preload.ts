@@ -1,5 +1,7 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
+import { LoginRequest, LoginResponse } from "./types/auth";
 
 contextBridge.exposeInMainWorld("proctor", {
-  version: "0.1.0"
+  login: (credentials: LoginRequest): Promise<LoginResponse> =>
+    ipcRenderer.invoke("auth:login", credentials)
 });
