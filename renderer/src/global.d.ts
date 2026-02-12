@@ -1,10 +1,12 @@
 
-import { LoginRequest, LoginResponse } from "../path-to-types/auth"; 
+import type{ LoginRequest, LoginResponse, SessionResponse } from "../../electron/types/auth"; 
 
 declare global {
   interface Window {
     proctor: {
       login: (credentials: LoginRequest) => Promise<LoginResponse>;
+      getSession: () => Promise<SessionResponse>;
+      logout: () => boolean;
     };
   }
 }

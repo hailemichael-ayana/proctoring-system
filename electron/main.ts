@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { LoginRequest, LoginResponse } from "./types/auth";
+import { LoginRequest, LoginResponse, Session, SessionResponse } from "./types/auth";
 
 const isDev = !app.isPackaged;
 
@@ -25,6 +25,7 @@ function createWindow() {
   }
 }
 
+let currentSession:Session | null = null
 app.whenReady().then(createWindow);
 ipcMain.handle(
   "auth:login",
@@ -32,6 +33,12 @@ ipcMain.handle(
     const { username, password } = credentials;
     console.log("Login bla:", username);
     if (username === "abc" && password === "1234") {
+      currentSession = {
+        userId:"abc",
+        username:"abcuser",
+        token:"tokenFromBE"
+
+      }
       return { success: true };
     }
 
@@ -42,3 +49,23 @@ ipcMain.handle(
   },
 );
 
+ipcMain.handle(
+  "auth:getSession", async():Promise<SessionResponse | null>=>{
+    if (!currentSession) {
+      return null
+    }
+    return {
+      userId:currentSession.userId,
+      username: currentSession.username
+    }
+
+  }
+)
+ipcMain.handle(
+  "auth:logout", async():Promise<{success:boolean}>=>{
+    currentSession= null
+    return{
+      success:true
+    }
+  }
+)

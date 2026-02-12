@@ -4,7 +4,11 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-const Login = () => {
+import type { SessionResponse } from '../../../electron/types/auth'
+interface LoginProp {
+    onLoginSuccess:(session:SessionResponse)=>void
+}
+const Login:React.FC<LoginProp> = ({onLoginSuccess}) => {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
@@ -21,8 +25,10 @@ const Login = () => {
       });
 
       if (result.success) {
+        const session = await window.proctor.getSession()
+        onLoginSuccess(session)
         toast.success("Login successful!");
-        navigate('/connectivity')
+        // navigate('/connectivity')
       } else {
         toast.error(result.message || "Login failed");
       }

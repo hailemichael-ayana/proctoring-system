@@ -1,7 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { LoginRequest, LoginResponse } from "./types/auth";
+import { LoginRequest, LoginResponse, SessionResponse } from "./types/auth";
 
 contextBridge.exposeInMainWorld("proctor", {
   login: (credentials: LoginRequest): Promise<LoginResponse> =>
-    ipcRenderer.invoke("auth:login", credentials)
+    ipcRenderer.invoke("auth:login", credentials),
+  getSession:():Promise<SessionResponse>=>
+    ipcRenderer.invoke("auth:getSession"),
+  logout:():Promise<{success:boolean}>=>
+    ipcRenderer.invoke("auth:logout")
 });
