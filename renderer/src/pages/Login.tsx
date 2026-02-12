@@ -4,33 +4,27 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import type { SessionResponse } from '../../../electron/types/auth'
-interface LoginProp {
-    onLoginSuccess:(session:SessionResponse)=>void
-}
-const Login:React.FC<LoginProp> = ({onLoginSuccess}) => {
+import { useAuth } from '../context/AuthContext'
+
+const Login:React.FC= () => {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const {login} = useAuth()
     const navigate =useNavigate()
     const handleLogin = async (e:any) => {
         e.preventDefault()
     setLoading(true);
 
     try {
-      const result = await window.proctor.login({
-        username,
-        password
-      });
+      const success= await login(username,password) 
 
-      if (result.success) {
-        const session = await window.proctor.getSession()
-        onLoginSuccess(session)
+      if (success) {
         toast.success("Login successful!");
-        // navigate('/connectivity')
+        navigate('/connectivity')
       } else {
-        toast.error(result.message || "Login failed");
+        toast.error("Login failed");
       }
     } catch (err) {
       toast.error("Something went wrong");
