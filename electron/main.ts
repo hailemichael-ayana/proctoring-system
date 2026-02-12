@@ -30,7 +30,6 @@ ipcMain.handle(
   "auth:login",
   async (_, credentials: LoginRequest): Promise<LoginResponse> => {
     const { username, password } = credentials;
-
     console.log("Login bla:", username);
     if (username === "abc" && password === "1234") {
       return { success: true };
