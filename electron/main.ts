@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, net } from "electron";
 import path from "path";
 import { LoginRequest, LoginResponse, Session, SessionResponse, StoreSchema } from "./types/auth";
 import keytar from 'keytar'
@@ -112,3 +112,20 @@ ipcMain.handle(
     }
   }
 )
+ipcMain.handle(
+  'net:status',async()=>{
+    return await checkOnline()
+  }
+)
+const checkOnline = async()=>{
+  return new Promise((resolve)=>{
+    const request = net.request("https://www.google.com/")
+    request.on("response",(response)=>{
+      resolve(true)
+    })
+    request.on("error",()=>{
+      resolve(false)
+    })
+    request.end()
+  })
+}

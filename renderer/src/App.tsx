@@ -20,6 +20,8 @@ export default function App() {
 
         <Route  element={ <PrivateRoute> <Main /> </PrivateRoute>}>
         <Route path="/connectivity" element={<InternetConnectivity/>}/>
+        <Route path="/mic" element={<InternetConnectivity/>}/>
+        <Route path="/camera" element={<InternetConnectivity/>}/>
         <Route path="/" element={<Exam/>}/>
         </Route>
 

@@ -12,5 +12,7 @@ contextBridge.exposeInMainWorld("proctor", {
     ipcRenderer.invoke("exam:start"),
   endExam: () =>
     ipcRenderer.invoke("exam:end"),
+  checkNetwork: () => 
+    ipcRenderer.invoke("net:status")
 
 });

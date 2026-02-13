@@ -9,6 +9,7 @@ declare global {
       logout: () => boolean;
       startExam: () => {success:boolean};
       endExam: () => {success:boolean};
+      checkNetwork: () => Promise<boolean>;
     };
   }
 }
