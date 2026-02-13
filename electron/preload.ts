@@ -7,5 +7,10 @@ contextBridge.exposeInMainWorld("proctor", {
   getSession:():Promise<SessionResponse>=>
     ipcRenderer.invoke("auth:getSession"),
   logout:():Promise<{success:boolean}>=>
-    ipcRenderer.invoke("auth:logout")
+    ipcRenderer.invoke("auth:logout"),
+  startExam: () =>
+    ipcRenderer.invoke("exam:start"),
+  endExam: () =>
+    ipcRenderer.invoke("exam:end"),
+
 });

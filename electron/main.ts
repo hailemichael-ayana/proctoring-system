@@ -7,8 +7,9 @@ import Store from 'electron-store'
 const isDev = !app.isPackaged;
 const SERVICE_NAME ="proctor-app"
 const ACCOUNT_NAME="proctor-encryption-key"
+let win: BrowserWindow | null = null;
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1920,
     height: 1080,
     fullscreen:false,
@@ -54,6 +55,19 @@ app.whenReady().then(async () => {
 
   createWindow();
 });
+
+ipcMain.handle("exam:start", async () => {
+  if (!currentSession) return { success: false };
+
+  win?.setKiosk(true);
+  return { success: true };
+});
+
+ipcMain.handle("exam:end", async () => {
+  win?.setKiosk(false);
+  return { success: true };
+});
+
 
 let currentSession:Session | null = null
 ipcMain.handle(

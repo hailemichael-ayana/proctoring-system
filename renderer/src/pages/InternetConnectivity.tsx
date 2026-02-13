@@ -21,7 +21,9 @@ const InternetConnectivity = () => {
         <p className="text-[16px] text-[#ddd] font-light ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium sequi ex, quidem, totam quibusdam a omnis adipisci mollitia, nobis neque nam velit aliquid atque perferendis. Cum impedit pariatur rem tempora?</p>
       </div>
       </div>
-      <Button className="bg-[#1F7FCC]" text="Continue" />
+      <Button onClick={async () => {
+    await window.proctor.startExam();
+  }} className="bg-[#1F7FCC]" text="Continue" />
     </div>
   )
 }
