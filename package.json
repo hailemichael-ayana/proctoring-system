@@ -1,12 +1,13 @@
 {
   "main": "dist-electron/main.js",
- 
   "scripts": {
     "dev": "npm run build:electron && concurrently \"npm run dev --prefix renderer\" \"npm run build:electron -- --watch\" \"wait-on http://localhost:5173 && nodemon\"",
     "build:electron": "tsc -p tsconfig.electron.json"
   },
   "dependencies": {
-    "electron": "^40.2.1"
+    "electron": "^40.2.1",
+    "electron-store": "^11.0.2",
+    "keytar": "^7.9.0"
   },
   "devDependencies": {
     "@types/electron": "^1.6.12",
