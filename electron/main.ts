@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { LoginRequest, LoginResponse, Session, SessionResponse } from "./types/auth";
+import { LoginRequest, LoginResponse, Session, SessionResponse, StoreSchema } from "./types/auth";
 import keytar from 'keytar'
 import crypto from "crypto";
 import Store from 'electron-store'
@@ -23,7 +23,7 @@ function createWindow() {
 
   if (isDev) {
     win.loadURL("http://localhost:5173");
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
   } else {
     win.loadFile(
       path.join(__dirname, "../renderer/dist/index.html")
@@ -38,17 +38,16 @@ async function getEncryptionKey():Promise<string>{
   }
   return key
 }
-let store:Store
+let store:Store<StoreSchema>
 app.whenReady().then(async () => {
   const encryptionKey = await getEncryptionKey();
 
-  store = new Store({
+  store = new Store<StoreSchema>({
     name: "proctor-session",
     encryptionKey
   });
 
   const savedSession = store.get("session");
-
   if (savedSession) {
     currentSession = savedSession as Session;
   }
@@ -82,9 +81,9 @@ ipcMain.handle(
         token:"tokenFromBE"
 
       }
+        store.set("session", currentSession);
       return { success: true };
     }
-
     return {
       success: false,
       message: "Invalid credentials"
@@ -107,6 +106,7 @@ ipcMain.handle(
 ipcMain.handle(
   "auth:logout", async():Promise<{success:boolean}>=>{
     currentSession= null
+    store.delete("session");
     return{
       success:true
     }

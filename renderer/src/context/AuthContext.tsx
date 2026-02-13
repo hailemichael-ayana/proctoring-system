@@ -4,6 +4,7 @@ interface AuthContextType{
     session:SessionResponse | null
     loading:boolean
     login:(username:string, password:string) => Promise<boolean> 
+    logout: () => Promise<void>
 }
 const AuthContext = createContext<AuthContextType|undefined>(undefined);
 export function AuthProvider({children}:{children:ReactNode}){
@@ -12,9 +13,16 @@ export function AuthProvider({children}:{children:ReactNode}){
     useEffect(() => {
     const checkSession = async () => {
         setLoading(true)
-        const existingSession = await window.proctor.getSession();
-        setSession(existingSession);
-        setLoading(false)
+        try {
+            const existingSession = await window.proctor.getSession();
+            setSession(existingSession);
+        } catch (error) {
+             console.error("Failed to get session:", error);
+        }
+        finally{
+            setLoading(false)
+        }
+        
     };
     checkSession();
     }, []);
@@ -27,8 +35,13 @@ export function AuthProvider({children}:{children:ReactNode}){
     }
     return false
 }
+  const logout = async () => {
+    await window.proctor.logout();
+    setSession(null);
+  };
+
 return (
-    <AuthContext.Provider value={{loading,session,login}}>
+    <AuthContext.Provider value={{loading,session,login,logout}}>
         {children}
     </AuthContext.Provider>
 )

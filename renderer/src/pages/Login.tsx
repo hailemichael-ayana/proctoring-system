@@ -22,7 +22,7 @@ const Login:React.FC= () => {
 
       if (success) {
         toast.success("Login successful!");
-        navigate('/connectivity')
+        navigate('/')
       } else {
         toast.error("Login failed");
       }

@@ -7,6 +7,8 @@ declare global {
       login: (credentials: LoginRequest) => Promise<LoginResponse>;
       getSession: () => Promise<SessionResponse>;
       logout: () => boolean;
+      startExam: () => {success:boolean};
+      endExam: () => {success:boolean};
     };
   }
 }

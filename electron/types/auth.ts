@@ -16,3 +16,6 @@ export interface SessionResponse{
   userId:string 
   username:string 
 }
+export interface StoreSchema {
+  session?: Session;
+}
