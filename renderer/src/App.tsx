@@ -7,6 +7,7 @@ import GuestRoute from "./routes/GuestRoute";
 import Exam from "./pages/Exam";
 const Login = lazy(()=>import ('./pages/Login'))
 const InternetConnectivity = lazy(()=>import ('./pages/InternetConnectivity'))
+const MicCheck = lazy(()=>import ('./pages/MicCheck'))
 export default function App() {
 
   return (
@@ -20,7 +21,7 @@ export default function App() {
 
         <Route  element={ <PrivateRoute> <Main /> </PrivateRoute>}>
         <Route path="/connectivity" element={<InternetConnectivity/>}/>
-        <Route path="/mic" element={<InternetConnectivity/>}/>
+        <Route path="/mic" element={<MicCheck/>}/>
         <Route path="/camera" element={<InternetConnectivity/>}/>
         <Route path="/" element={<Exam/>}/>
         </Route>
