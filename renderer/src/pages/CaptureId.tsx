@@ -13,7 +13,7 @@ interface PropsType {
   photoTaken?:boolean
 }
 
-const CapturePhoto = () => {
+const CaptureId = () => {
   const { videoRef,canvasRef,cameraReady,capturePhoto: capture,stopCamera,photo,setPhoto,devices,selectedDeviceId,setSelectedDeviceId,setVideoKey,videoKey } = useCameraCapture();
 
   const [photoTaken, setPhotoTaken] = useState<boolean>(false);
@@ -38,9 +38,9 @@ const CapturePhoto = () => {
    setPhotoTaken(false)
   };
   const props: PropsType = {
-    currentStage: 4,
+    currentStage: 5,
     loadingText: "Checking the camera please wait",
-    nextLink: "/captureId",
+    nextLink: "/shareScreen",
     loading:!cameraReady,
     photoTaken:photoTaken,
     troubleshootingText:
@@ -94,4 +94,4 @@ const CapturePhoto = () => {
   return <PreExam stopCamera={stopCamera} props={props} />;
 };
 
-export default CapturePhoto;
+export default CaptureId;
