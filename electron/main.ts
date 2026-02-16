@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, net } from "electron";
+import { app, BrowserWindow, ipcMain, net, session } from "electron";
 import path from "path";
 import { LoginRequest, LoginResponse, Session, SessionResponse, StoreSchema } from "./types/auth";
 import keytar from 'keytar'
@@ -17,7 +17,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      sandbox: false
     }
   });
 
@@ -40,6 +41,15 @@ async function getEncryptionKey():Promise<string>{
 }
 let store:Store<StoreSchema>
 app.whenReady().then(async () => {
+ session.defaultSession.setPermissionRequestHandler(
+    (webContents, permission, callback) => {
+      if (permission === "media") {
+        callback(true); 
+      } else {
+        callback(false);
+      }
+    }
+  );
   const encryptionKey = await getEncryptionKey();
 
   store = new Store<StoreSchema>({

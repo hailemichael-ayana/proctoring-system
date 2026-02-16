@@ -11,9 +11,11 @@ interface preExamProps{
     nextLink:string
     children: ReactNode
     currentStage:number
+    photoTaken?:boolean
   }
+  stopCamera?:()=>void
 }
-const PreExam:React.FC<preExamProps> = ({props}) => {
+const PreExam:React.FC<preExamProps> = ({props,stopCamera}) => {
   const navigate = useNavigate()
   const { logout} =useAuth()
   return (
@@ -38,8 +40,9 @@ const PreExam:React.FC<preExamProps> = ({props}) => {
         <p className="text-[16px] text-[#ddd] font-light ">{props.troubleshootingText}</p>
       </div>
       </div>
-      <Button  onClick={async () => {
+      <Button disabled={props.photoTaken===false?true:props.loading}  onClick={() => {
     navigate(props.nextLink)
+    stopCamera&&stopCamera()
   }} className="bg-[#1F7FCC]" text="Continue" />
   <Button  onClick={logout} className="bg-[#1F7FCC]" text="Logout" />
     </div>
