@@ -11,6 +11,7 @@ const MicCheck = lazy(()=>import ('./pages/MicCheck'))
 const CameraCheck = lazy(()=>import ('./pages/CameraCheck'))
 const CapturePhoto = lazy(()=>import ('./pages/CapturePhoto'))
 const CaptureId = lazy(()=>import ('./pages/CaptureId'))
+const ScreenShare = lazy(()=>import ('./pages/ScreenShare'))
 export default function App() {
 
   return (
@@ -29,7 +30,7 @@ export default function App() {
         <Route path="/camera" element={<CameraCheck/>}/>
         <Route path="/capturePhoto" element={<CapturePhoto/>}/>
         <Route path="/captureId" element={<CaptureId/>}/>
-        <Route path="/shareScreen" element={<CapturePhoto/>}/>
+        <Route path="/shareScreen" element={<ScreenShare/>}/>
         </Route>
 
       </Routes>

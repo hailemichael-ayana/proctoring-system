@@ -3,7 +3,6 @@ import grid from '../assets/images/grid.png'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const Login:React.FC= () => {
@@ -12,7 +11,6 @@ const Login:React.FC= () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const {login} = useAuth()
-    const navigate =useNavigate()
     const handleLogin = async (e:any) => {
         e.preventDefault()
     setLoading(true);
@@ -22,7 +20,6 @@ const Login:React.FC= () => {
 
       if (success) {
         toast.success("Login successful!");
-        navigate('/')
       } else {
         toast.error("Login failed");
       }

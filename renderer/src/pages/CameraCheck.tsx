@@ -14,7 +14,7 @@ const CameraCheck = () => {
   const {cameraReady}= useCameraCapture()
    const props:PropsType={
           currentStage:3,
-          loadingText:"checking the Internet connectivity please wait",
+          loadingText:"Checking the camera please wait",
           nextLink:"/capturePhoto",
           loading:!cameraReady,
           troubleshootingText:"If you are experiencing camera issues, please ensure the devices are properly connected and selected as default in your system settings. Close other apps that may be using them. Restart the application or device if the problem persists.",

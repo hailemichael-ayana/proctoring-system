@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, net, session } from "electron";
+import { app, BrowserWindow, desktopCapturer, ipcMain, net, session } from "electron";
 import path from "path";
 import { LoginRequest, LoginResponse, Session, SessionResponse, StoreSchema } from "./types/auth";
 import keytar from 'keytar'
@@ -43,7 +43,7 @@ let store:Store<StoreSchema>
 app.whenReady().then(async () => {
  session.defaultSession.setPermissionRequestHandler(
     (webContents, permission, callback) => {
-      if (permission === "media") {
+      if (permission === "media"|| permission === "display-capture") {
         callback(true); 
       } else {
         callback(false);
@@ -127,6 +127,17 @@ ipcMain.handle(
     return await checkOnline()
   }
 )
+ipcMain.handle("screen:getSources", async () => {
+  const sources = await desktopCapturer.getSources({
+    types: ["screen"],
+    thumbnailSize: { width: 0, height: 0 }
+  });
+
+  return sources.map(source => ({
+    id: source.id,
+    name: source.name
+  }));
+});
 const checkOnline = async()=>{
   return new Promise((resolve)=>{
     const request = net.request("https://www.google.com/")

@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext"
 
 interface preExamProps{
   props:{
-    loading:boolean
+    loading?:boolean
     loadingText:string
     troubleshootingText:string
     nextLink:string
@@ -18,6 +18,7 @@ interface preExamProps{
 const PreExam:React.FC<preExamProps> = ({props,stopCamera}) => {
   const navigate = useNavigate()
   const { logout} =useAuth()
+
   return (
     <div className="h-[80%] w-full  flex flex-col gap-10  items-center py-10">
       <h1 className="text-5xl">Pre Exam Set ups</h1>
@@ -43,7 +44,8 @@ const PreExam:React.FC<preExamProps> = ({props,stopCamera}) => {
       <Button disabled={props.photoTaken===false?true:props.loading}  onClick={() => {
     navigate(props.nextLink)
     stopCamera&&stopCamera()
-  }} className="bg-[#1F7FCC]" text="Continue" />
+    props.nextLink==='/'&& window.proctor.startExam()
+  }} className="bg-[#1F7FCC]" text={`${props.nextLink==='/'?'Start Exam':'Continue'}`} />
   <Button  onClick={logout} className="bg-[#1F7FCC]" text="Logout" />
     </div>
   )

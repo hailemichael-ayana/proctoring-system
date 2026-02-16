@@ -10,6 +10,7 @@ declare global {
       startExam: () => {success:boolean};
       endExam: () => {success:boolean};
       checkNetwork: () => Promise<boolean>;
+      getScreenSources: () => Promise<{ id: string; name: string }[]>;
     };
   }
 }
